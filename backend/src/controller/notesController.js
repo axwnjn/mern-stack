@@ -2,10 +2,21 @@ import Note from "../models/Note.js";
 
 async function getAllNotes(req, res) {
   try {
-    const note = await Note.find();
+    const note = await Note.find().sort({ createdAt: -1 }); // sort() buat ngurutin dari paling terakhir -1 | default: 1
     res.status(200).json(note);
   } catch (error) {
     console.error("Error in getAllNotes controller", error);
+    res.status(500).json({ message: error.message });
+  }
+}
+
+async function getNotesByID(req, res) {
+  try {
+    const result = await Note.findById(req.params.id);
+    if (!result) return res.json({ message: "ID do not exist!" });
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error in getNotesByID controller", error);
     res.status(500).json({ message: error.message });
   }
 }
@@ -55,4 +66,4 @@ async function deleteNote(req, res) {
   }
 }
 
-export { getAllNotes, createNote, updateNote, deleteNote };
+export { getAllNotes, createNote, updateNote, deleteNote, getNotesByID };
