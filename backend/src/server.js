@@ -4,14 +4,14 @@ import { connectDB } from "./config/db.js";
 import ratelimiter from "../middleware/rateLimiter.js";
 
 const app = express();
-const PORT = process.env.PORT || 5001;
-
-connectDB(); //connect to MongoDB lewat exportan db.js
+const PORT = process.env.PORT || 5001; //connect to MongoDB lewat exportan db.js
 
 app.use(express.json()); // MIDDLEWARE ngebaca JSON
 app.use(ratelimiter);
 app.use("/api/notes", notesRoutes); // MIDDLEWARE untuk prefix di routes
 
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`);
+  });
 });
