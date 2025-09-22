@@ -1,10 +1,10 @@
-import ratelimit from "../src/config/upstash.js";
+import ratelimit from "../config/upstash.js";
 
 const ratelimiter = async (req, res, next) => {
   try {
     const { success } = await ratelimit.limit("my-list-key");
     if (!success) {
-      return res.status(400).json({
+      return res.status(429).json({
         message: "too many requests, please try again later",
       });
     }
