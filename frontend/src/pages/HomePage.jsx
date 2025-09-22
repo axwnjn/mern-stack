@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import NoteCard from "../components/NoteCard";
 import RateLimitedUI from "../components/RateLimitedUI";
-import axios from "axios";
-import { TableRowsSplit } from "lucide-react";
+import { Link } from "react-router";
+
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import api from "../../lib/axios";
 
 const HomePage = () => {
   const [isRateLimit, setIsRateLimit] = useState(false);
@@ -14,7 +15,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const result = await axios.get("http://localhost:5001/api/notes");
+        const result = await api.get("/notes");
         setNotes(result.data);
         setIsRateLimit(false);
         console.log(result.data);
@@ -38,12 +39,19 @@ const HomePage = () => {
     <div className="min-h-screen">
       <NavBar />
       {isRateLimit && <RateLimitedUI />}
-      {notes.length === 0 && !isRateLimit && <div>kosong</div>}
 
       {isLoading && (
         <p className="text-center mt-6 p-4 font-semibold text-lg">
           Loading Notes...
         </p>
+      )}
+      {notes.length === 0 && !isRateLimit && (
+        <div className="text-center ">
+          <p className=" mt-6 p-4 font-semibold text-lg">Empty</p>
+          <Link to={"/create"}>
+            <button className="btn btn-secondary ">create</button>
+          </Link>
+        </div>
       )}
       <div className="mx-auto max-w-7xl p-4 mt-6">
         {notes.length > 0 && !isRateLimit && (

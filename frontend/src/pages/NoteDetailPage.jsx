@@ -1,8 +1,8 @@
 import { ArrowLeftIcon, Trash2Icon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
-import axios from "axios";
 import toast from "react-hot-toast";
+import api from "../../lib/axios";
 
 const NoteDetailPage = () => {
   const [note, setNote] = useState({ title: "", content: "" });
@@ -16,7 +16,7 @@ const NoteDetailPage = () => {
     //pake useEffect hook buat ambil id sesuai param dulu.
     const fetchNote = async () => {
       try {
-        const res = await axios.get(`http://localhost:5001/api/notes/${id}`);
+        const res = await api.get(`notes/${id}`);
         console.log(res.data);
 
         setNote(res.data);
@@ -32,7 +32,7 @@ const NoteDetailPage = () => {
   const handleSave = async () => {
     try {
       setSave(true);
-      await axios.put(`http://localhost:5001/api/notes/${id}`, note);
+      await api.put(`/notes/${id}`, note);
       toast.success("saved!");
       navigate("/");
     } catch (error) {
@@ -44,7 +44,7 @@ const NoteDetailPage = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5001/api/notes/${id}`);
+      await api.delete(`/notes/${id}`);
       toast.success("Deleted ");
       navigate("/");
     } catch (error) {
