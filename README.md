@@ -54,7 +54,7 @@ All code has been written by me, and I used it as a way to understand how a full
 ###  Note Card
 <p align="center">
   <img src="static/Note_Card-Desktop.png" width="65%" alt="register-desktop"/>
-  &nbsp;
+  
   <img src="static/Note_Card-Mobile.png" width="25%" alt="register-mobile"/>
 </p>
 
